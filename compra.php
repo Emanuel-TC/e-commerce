@@ -1,5 +1,6 @@
 <?php
 
+require 'config/config.php';
 require 'config/database.php';
     $db = new DataBase();
     $con = $db->conectar();
@@ -88,6 +89,9 @@ require 'config/database.php';
 
                             $id = $row['idArticulo'];
                             $imagen = $row['foto'];
+                            $precio = $row['precio'];
+                            $descripcion = $row['descripcion'];
+                            $disponibles = $row['cantidadEnAlmacen'];
 
 
 
@@ -97,15 +101,15 @@ require 'config/database.php';
                                 <h5 class="card-title"><?php echo $row['nombre']; ?></h5>
 
                                 <p class="card-text">
-                                    <?php echo $row['descripcion']; ?>
+                                    <?php echo $descripcion; ?>
                                 </p>
 
                                 <p class="card-text">
-                                  Precio:  $<?php echo number_format($row['precio'], 2, '.', ','); ?> MXN
+                                  Precio:  <?php echo MONEDA . number_format($precio, 2, '.', ','); ?> MXN
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <p>Disponibles: <?php echo $row['cantidadEnAlmacen']; ?> </p>
+                                        <p>Disponibles: <?php echo $disponibles; ?> </p>
                                     </div>
                                     <a href="" class="btn btn-success" onclick="addProducto(<?php echo $id; ?>)">Agregar</a>
                                 </div>
@@ -118,6 +122,21 @@ require 'config/database.php';
         <!--container  -->
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    
+    <script>
+        function addProducto(id){
+            let url= 'checkout.php';
+            let formData = new FormData();
+            formData.append('id',id);
+
+            fetch(url,{
+                method: 'POST',
+                body: formData,
+                mode: 'cros'
+            }).then(response => response.json() )
+
+        }
+    </script>
 </body>
 
 </html>
