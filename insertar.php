@@ -10,16 +10,14 @@ require 'config/database.php';
                             $precio = $_POST["precio"];
                             $cantidadEnAlmacen = $_POST["cantidadEnAlmacen"];
 
-                            if($_FILES["foto"]){
-                                $nombre_base = basename($_FILES["foto"]["name"]);
-                                $nombre_final = date("d-m-y"). "-". date("H-i-s")."-" . $nombre_base;
-                                $ruta = "images/" . $nombre_final;
-                                $subirFoto = move_uploaded_file($_FILES["foto"]["tmp_name"],$ruta);
+                            $revisar = getimagesize($_FILES["foto"]["tmp_name"]);
+                            if($revisar !== false){
+                                $foto = $_FILES['foto']['tmp_name'];
+                                $fotoContenido = addslashes(file_get_contents($foto));
 
-                                if($subirFoto){
                                     $insertarSQL = $con->prepare("INSERT INTO articulos(nombre, descripcion, precio,
                                      cantidadEnAlmacen, foto) 
-                                     VALUES ('$nombre','$descripcion','$precio','$cantidadEnAlmacen','$ruta')");
+                                     VALUES ('$nombre','$descripcion','$precio','$cantidadEnAlmacen','$fotoContenido')");
                                     
                                     $insertarSQL->execute();
                                      //$resultado =   mysqli_query($con, $insertarSQL);
@@ -32,7 +30,4 @@ require 'config/database.php';
                                          printf("Error: ");
                                      }
                                 }
-                            }
-
-
 ?>

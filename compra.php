@@ -107,7 +107,7 @@ require 'config/database.php';
                                     <div class="btn-group">
                                         <p>Disponibles: <?php echo $row['cantidadEnAlmacen']; ?> </p>
                                     </div>
-                                    <a href="" class="btn btn-success">Agregar</a>
+                                    <a href="" class="btn btn-success" onclick="addProducto(<?php echo $id; ?>)">Agregar</a>
                                 </div>
                             </div>
                         </div>
