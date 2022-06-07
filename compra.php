@@ -38,7 +38,9 @@ require 'config/database.php';
 
                     </ul>
 
-                    <a href="checkout.php" class="btn btn-primary">Carrito</a>
+                    <a href="checkout.php" class="btn btn-primary">
+                        Carrito <span id="num_cart" class="badge bg-secondary"></span>
+                    </a>
                 </div>
 
             </div>
@@ -87,7 +89,7 @@ require 'config/database.php';
 
                             <?php
 
-                            $id = $row['idArticulo'];
+                                
                             $imagen = $row['foto'];
                             $precio = $row['precio'];
                             $descripcion = $row['descripcion'];
@@ -132,8 +134,14 @@ require 'config/database.php';
             fetch(url,{
                 method: 'POST',
                 body: formData,
-                mode: 'cros'
-            }).then(response => response.json() )
+                mode: 'cors'
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    let elemento = document.getElementById("num_cart")
+                    elemento.innerHTML = data.numero
+                }
+            })
 
         }
     </script>

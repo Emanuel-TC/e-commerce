@@ -4,7 +4,6 @@ require 'config/config.php';
 require 'config/database.php';
     $db = new DataBase();
     $con = $db->conectar();
-    $id = $row['idArticulo'];
 
     if(isset($_POST['id'])){
 
@@ -18,12 +17,15 @@ require 'config/database.php';
         }
         
         $datos['numero']= count($_SESSION['checkout']['productos']);
+        $datos['ok'] = true;
 
 
     }
     else{
         $datos['ok'] = false; 
     }
+
+    echo json_encode($datos);
 
 ?>
 
