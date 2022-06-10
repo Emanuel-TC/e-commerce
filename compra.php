@@ -39,7 +39,7 @@ $con = $db->conectar();
                     </ul>
 
                     <a href="checkout.php" class="btn btn-primary">
-                        Carrito <span id="num_cart" class="badge bg-secondary"></span>
+                        Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart?></span>
                     </a>
                 </div>
 
@@ -119,9 +119,11 @@ $con = $db->conectar();
                                     <div class="btn-group">
                                         <a href="detalles.php?id=<?php
                                         echo $idArticulo; ?>&token=<?php echo
-                                        hash_hmac('sha1', $idArticulo, KEY_TOKEN); ?>" class="btn btn-success">Agregar</a>
-
+                                        hash_hmac('sha1', $idArticulo, KEY_TOKEN); ?>" class="btn btn-primary">Detalles</a>
                                     </div>
+                                    <button name="Agregar" onclick="addProducto(<?php echo $idArticulo;?>,
+                                    '<?php echo hash_hmac('sha1', $idArticulo, KEY_TOKEN); ?>')"
+                                     class="btn btn-success">Agregar</button>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +135,30 @@ $con = $db->conectar();
         <!--container  -->
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script>
+       
+        function addProducto(idArticulo,token){
+            let url = 'clases/carrito.php'
+            let formData = new FormData()
+            formData.append('idArticulo',idArticulo)
+            formData.append('token',token)
+           //formData.append('cantidad',cantidad);
+
+            fetch(url,{
+                method: 'POST',
+                body: formData,
+                mode: 'cors'
+            }).then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    let elemento = document.getElementById("num_cart")
+                    elemento.innerHTML = data.numero
+                }
+            })
+
+        }
+    </script>
 
 </body>
 

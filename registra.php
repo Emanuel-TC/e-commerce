@@ -1,6 +1,7 @@
 <?php
 
     require 'config/database.php';
+    require 'config/config.php';
     $db = new DataBase();
     $con = $db->conectar();
 
@@ -36,7 +37,9 @@
 
                     </ul>
 
-                    <a href="checkout.php" class="btn btn-primary">Carrito</a>
+                    <a href="checkout.php" class="btn btn-primary">
+                    Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart?></span>
+                    </a>
                 </div>
 
             </div>

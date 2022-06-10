@@ -73,7 +73,7 @@ if ($idArticulo == '' || $token == '') {
                     </ul>
 
                     <a href="checkout.php" class="btn btn-primary">
-                        Carrito <span id="num_cart" class="badge bg-secondary"></span>
+                    Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart?></span>
                     </a>
                 </div>
             </div>
@@ -114,7 +114,7 @@ if ($idArticulo == '' || $token == '') {
                                 
                             </div>
                             <div class="btn-group">
-                                <a class="btn btn-outline-primary" type="button" name="Agregar" onclick="addProducto(<?php echo $idArticulo;?>,<?php echo $token_tmp;?>)">Agregar a carrito</a>
+                                <a class="btn btn-outline-primary" type="button" name="Agregar" onclick="addProducto(<?php echo $idArticulo;?>,'<?php echo $token_tmp;?>')">Agregar a carrito</a>
                             </div>
                         </form>
                         </div>
@@ -129,21 +129,21 @@ if ($idArticulo == '' || $token == '') {
     <script>
        
         function addProducto(idArticulo,token){
-            let url = 'clases/carrito.php';
-            let formData = new FormData();
-            formData.append('idArticulo',idArticulo);
-            formData.append('token',token);
+            let url = 'clases/carrito.php'
+            let formData = new FormData()
+            formData.append('idArticulo',idArticulo)
+            formData.append('token',token)
            //formData.append('cantidad',cantidad);
 
             fetch(url,{
                 method: 'POST',
-                body: 'formData',
+                body: formData,
                 mode: 'cors'
             }).then(response => response.json())
-            .then(data =>{
+            .then(data => {
                 if(data.ok){
-                    let elemento = document.getElementById("num_cart");
-                    elemento.innerHTML = data.numero;
+                    let elemento = document.getElementById("num_cart")
+                    elemento.innerHTML = data.numero
                 }
             })
 

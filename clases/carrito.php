@@ -13,7 +13,7 @@
         if ($token_tmp == $token_tmp){
 
             if(isset($_SESSION['carrito']['articulos'][$idArticulo])){
-
+                
                 $_SESSION['carrito']['articulos'][$idArticulo] += 1; //$cantidad
 
             }else{
