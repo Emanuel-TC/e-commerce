@@ -2,8 +2,8 @@
 
 require 'config/config.php';
 require 'config/database.php';
-    $db = new DataBase();
-    $con = $db->conectar();
+$db = new DataBase();
+$con = $db->conectar();
 
 ?>
 
@@ -66,22 +66,22 @@ require 'config/database.php';
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-                <?php 
+                <?php
 
                 //código boton de busqueda//
-                if(isset($_GET['Buscar'])){
+                if (isset($_GET['Buscar'])) {
                     $CajaBusqueda = $_GET['CajaBusqueda'];
 
                     //Código resultado de búsqueda
                     $sql = $con->prepare("SELECT * FROM articulos where descripcion LIKE '%$CajaBusqueda%'");
                     $sql->execute();
-                    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);}
-                else{
+                    $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+                } else {
                     //codigo muestra todos los productos
                     $sql = $con->prepare("SELECT * FROM articulos");
                     $sql->execute();
                     $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
-                }    
+                }
                 // vamos a ver quéso
                 foreach ($resultado as $row) { ?>
                     <div class="col">
@@ -89,7 +89,7 @@ require 'config/database.php';
 
                             <?php
 
-                                
+                            $id = $row['idArticulo'];
                             $imagen = $row['foto'];
                             $precio = $row['precio'];
                             $descripcion = $row['descripcion'];
@@ -100,51 +100,40 @@ require 'config/database.php';
                             ?>
                             <img src="data:image;base64, <?php echo $imagen = base64_encode($imagen) ?>">
                             <div class="card-body">
+                                <!--h5 class="card-title" name="idArticulo"><?php //echo $idA; 
+                                                                            ?></h5-->
                                 <h5 class="card-title"><?php echo $row['nombre']; ?></h5>
-
                                 <p class="card-text">
                                     <?php echo $descripcion; ?>
                                 </p>
 
                                 <p class="card-text">
-                                  Precio:  <?php echo MONEDA . number_format($precio, 2, '.', ','); ?> MXN
+                                    Precio: <?php echo MONEDA . number_format($precio, 2, '.', ','); ?> MXN
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <p>Disponibles: <?php echo $disponibles; ?> </p>
+                                        <form class="" action="detalles.php" method="get" enctype="multipart/form-data">
+                                            <div class="form-floating mb-3">
+                                                <input type="number" class="form-control rounded-3" id="cantidad" placeholder="cantidad" name="cantidad" min="1" max="99999" maxlength="5" value="1">
+                                                <label for="floatingPassword">Cantidad </label>
+                                            </div>
+                                            <a class="btn btn-success" href="detalles.php?id=<?php 
+                                            echo $row['idArticulo']; ?>&token=<?php echo hash_hmac('sha1', $row['idArticulo'], KEY_TOKEN); ?>" 
+                                            type="button" name="Agregar")">Agregar</a>
+                                        </form>
                                     </div>
-                                    <a href="" class="btn btn-success" onclick="addProducto(<?php echo $id; ?>)">Agregar</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php }?>
+                <?php } ?>
             </div>
+
         </div>
         <!--container  -->
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    
-    <script>
-        function addProducto(id){
-            let url= 'checkout.php';
-            let formData = new FormData();
-            formData.append('id',id);
 
-            fetch(url,{
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-            }).then(response => response.json())
-            .then(data => {
-                if(data.ok){
-                    let elemento = document.getElementById("num_cart")
-                    elemento.innerHTML = data.numero
-                }
-            })
-
-        }
-    </script>
 </body>
 
 </html>

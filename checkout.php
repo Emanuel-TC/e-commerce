@@ -2,30 +2,8 @@
 
 require 'config/config.php';
 require 'config/database.php';
-    $db = new DataBase();
-    $con = $db->conectar();
-
-    if(isset($_POST['id'])){
-
-        $id = $_POST['id'];
-
-        if(isset($_SESSION['checkout']['productos'][$id])){
-            $_SESSION['checkout']['productos'][$id] =+1;
-        }
-        else{
-        $_SESSION['checkout']['productos'][$id] =1;
-        }
-        
-        $datos['numero']= count($_SESSION['checkout']['productos']);
-        $datos['ok'] = true;
-
-
-    }
-    else{
-        $datos['ok'] = false; 
-    }
-
-    echo json_encode($datos);
+$db = new DataBase();
+$con = $db->conectar();
 
 ?>
 
@@ -75,7 +53,7 @@ require 'config/database.php';
                 <div class="col-lg-6 col-md-8 mx-auto">
                     <h1 class="fw-light">Carrito</h1>
                     <p class="lead text-muted">¿Encontraste todo lo que buscabas?
-                         Recuerda, nuestro objetivo es hacerte feliz.
+                        Recuerda, nuestro objetivo es hacerte feliz.
                     </p>
                     <p>
                         <a href="compra.php" class="btn btn-primary my-2">Compra de artículo</a>
@@ -85,7 +63,6 @@ require 'config/database.php';
             </div>
         </section>
 
-        
     </main>
 
 
