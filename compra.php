@@ -17,7 +17,7 @@ $con = $db->conectar();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-shop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <link href="css/estilos.css" rel="stylesheet">
 </head>
 
 <body>
@@ -89,7 +89,7 @@ $con = $db->conectar();
 
                             <?php
 
-                            $id = $row['idArticulo'];
+                            $idArticulo = $row['idArticulo'];
                             $imagen = $row['foto'];
                             $precio = $row['precio'];
                             $descripcion = $row['descripcion'];
@@ -111,16 +111,16 @@ $con = $db->conectar();
                                     Precio: <?php echo MONEDA . number_format($precio, 2, '.', ','); ?> MXN
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
+
+
+                                    <div class="form-floating mb-3">
+                                        
+                                    </div>
                                     <div class="btn-group">
-                                        <form class="" action="detalles.php" method="get" enctype="multipart/form-data">
-                                            <div class="form-floating mb-3">
-                                                <input type="number" class="form-control rounded-3" id="cantidad" placeholder="cantidad" name="cantidad" min="1" max="99999" maxlength="5" value="1">
-                                                <label for="floatingPassword">Cantidad </label>
-                                            </div>
-                                            <a class="btn btn-success" href="detalles.php?id=<?php 
-                                            echo $row['idArticulo']; ?>&token=<?php echo hash_hmac('sha1', $row['idArticulo'], KEY_TOKEN); ?>" 
-                                            type="button" name="Agregar")">Agregar</a>
-                                        </form>
+                                        <a href="detalles.php?id=<?php
+                                        echo $idArticulo; ?>&token=<?php echo
+                                        hash_hmac('sha1', $idArticulo, KEY_TOKEN); ?>" class="btn btn-success">Agregar</a>
+
                                     </div>
                                 </div>
                             </div>
