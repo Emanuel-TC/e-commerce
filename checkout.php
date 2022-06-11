@@ -124,7 +124,7 @@ if ($articulos != null) {
                                         </div>
                                     </td>
                                     <td><a href="#" id="eliminar" class="btn btn-warning btn-sm" data-bs-id="<?php echo $idArticulo; ?>" data-bs-toggle="modal" data-bs-target="#eliminaModal">
-                                            Eliminar
+                                            Eliminar <!-- Dato id-->
                                         </a></td>
                                 </tr>
                             <?php } ?>
@@ -158,7 +158,7 @@ if ($articulos != null) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button id="btn-eliminar" type="button" class="btn btn-danger" onclick="elimina">Eliminar</button>
+                    <button id="btn-eliminar" type="button" class="btn btn-danger" onclick="eliminar()">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -169,7 +169,12 @@ if ($articulos != null) {
 
     <script>
         let eliminaModal = document.getElementById('eliminaModal')
-        eliminaModal.addEventListener('')
+        eliminaModal.addEventListener('show.bs.modal',function(event){
+            let button = event.relatedTarget
+            let id = button.getAttribute('data-bs-id')
+            let buttonElimina = eliminaModal.querySelector('.modal-footer #btn-eliminar')
+            buttonElimina.value = id
+        })
 
         function actualizaCantidad(cantidad, idArticulo) {
             let url = 'clases/actualizar_carrito.php'
@@ -199,6 +204,29 @@ if ($articulos != null) {
 
                         }).format(total)
                         document.getElementById('total').innerHTML = '<?php MONEDA;  ?>' + total
+                    }
+                })
+
+        }
+
+        function eliminar(){
+            let botonElimina  = document.getElementById('btn-eliminar')
+            let id = botonElimina.value
+
+            let url = 'clases/actualizar_carrito.php'
+            let formData = new FormData()
+            formData.append('idArticulo', id)
+            formData.append('action', 'eliminar')
+            
+
+            fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'cors'
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        location.reload()
                     }
                 })
 

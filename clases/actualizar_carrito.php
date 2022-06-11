@@ -15,7 +15,9 @@
                 $datos['ok']=false;
             }
             $datos['sub'] = MONEDA . number_format($respuesta,2,'.',',');
-        }else{
+        }else if($action == 'eliminar'){
+                $datos['ok']=eliminar($idArticulo);
+        } else{
             $datos['ok']=false;
         }
     }else{
@@ -46,6 +48,17 @@
             }
         }else{
             return $res;
+        }
+    }
+
+    function eliminar($idArticulo){
+        if($idArticulo >0){
+            if(isset($_SESSION['carrito']['articulos'][$idArticulo])){
+                unset($_SESSION['carrito']['articulos'][$idArticulo]);
+                return true;
+            }
+        }else{
+            return false;
         }
     }
 ?>
